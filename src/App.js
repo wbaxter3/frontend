@@ -1,34 +1,28 @@
 import React, { Component } from 'react';
 
+import Contacts from './components/contacts';
+const API = 'https://3yejoomask.execute-api.us-east-1.amazonaws.com/prod//player-season-data?year=';
+const DEFAULT_QUERY = '2018';
+
 class App extends Component {
   state = {
-    todos: []
+    contacts: []
   };
 
-  async componentDidMount() {
-    try {
-      const res = await fetch('http://127.0.0.1:8000/api/');
-      const todos = await res.json();
-      this.setState({
-        todos
-      });
-    } catch (e) {
-      console.log(e);
+
+  componentDidMount() {
+      fetch('http://jsonplaceholder.typicode.com/users')
+      .then(res => res.json())
+      .then((data) => {
+        this.setState({ contacts: data })
+      })
+      .catch(console.log)
     }
-  }
 
-  render() {
-    return (
-      <div>
-        {this.state.todos.map(item => (
-          <div key={item.id}>
-            <h1>{item.title}</h1>
-            <span>{item.description}</span>
-          </div>
-        ))}
-      </div>
-    );
-  }
+    render() {
+          return (
+            <Contacts contacts={this.state.contacts} />
+          )
+        }
 }
-
 export default App;
